@@ -34,6 +34,8 @@ namespace Thothi
             if(confirm == DialogResult.No) return;
 
             results1.ClearResults();
+            searchEngine.CaseSensitive = checkBox2.Checked; 
+            searchEngine.Regex = checkBox3.Checked;
 
             SearchJob:
             try
@@ -41,7 +43,7 @@ namespace Thothi
                 button1.Enabled = false;
                 await searchEngine.SearchDirectoriesAsync(folderBrowserDialog1.SelectedPath, checkBox1.Checked, textBox1.Text);
             }
-            catch (Exception de)
+            catch
             {
                 SearchComplete();
                 MessageBox.Show("Something made the search to stop...");
@@ -52,24 +54,13 @@ namespace Thothi
         private void Button2_Click(object sender, EventArgs e)
         {
             if(folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-            {
                 textBox2.Text = folderBrowserDialog1.SelectedPath;
-            }
         }
 
-        private void Button3_Click(object sender, EventArgs e)
-        {
-            searchEngine.stopSearch = true; // Stop search
-        }
+        private void Button3_Click(object sender, EventArgs e) => searchEngine.stopSearch = true; // Stop search
 
-        private void CheckBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            searchEngine.CaseSensitive = checkBox2.Checked;
-        }
+        private void CheckBox2_CheckedChanged(object sender, EventArgs e) => searchEngine.CaseSensitive = checkBox2.Checked;
 
-        private void CheckBox3_CheckedChanged(object sender, EventArgs e)
-        {
-            searchEngine.Regex = checkBox3.Checked;
-        }
+        private void CheckBox3_CheckedChanged(object sender, EventArgs e) => searchEngine.Regex = checkBox3.Checked;
     }
 }

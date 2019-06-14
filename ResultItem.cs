@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Thothi
 {
-    public partial class ResultDisplay : UserControl
+    public partial class ResultItem : UserControl
     {
-        public ResultDisplay() => InitializeComponent();
+        public ResultItem() => InitializeComponent();
 
         public int GetCurrentPage()
         {
@@ -27,7 +27,7 @@ namespace Thothi
             
         }
 
-        public ResultDisplay(FindDetails fd) : this()
+        public ResultItem(FindDetails fd) : this()
         {
             fName.Text = fd.filename;
             comboBox1.DataSource = fd.pagesSearchFound;

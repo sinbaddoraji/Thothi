@@ -1,6 +1,6 @@
 ﻿namespace Thothi
 {
-    partial class ResultDisplay
+    partial class ResultItem
     {
         /// <summary> 
         /// Required designer variable.

@@ -1,4 +1,5 @@
 ﻿using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.parser;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -7,8 +8,7 @@ namespace Thothi
 {
     class FileHandler
     {
-        File f;
-
+        File f = new File();
         public bool CaseSensitive
         {
             get => f.caseSensitive;
@@ -22,21 +22,13 @@ namespace Thothi
         public bool Supports(string file)
         {
             return new Pdf().IsDocument(file);
-            //return OfficeDoc.IsWordFile(file);
-           /* return new Pdf().IsDocument (file)
-                || OfficeDoc.IsWordFile (file)
-                ||  OfficeDoc.IsPptFile (file);*/
         }
 
         public FindDetails SearchDocument(string file, string searchPhrase)
         {
             try
             {
-                
                 if (new Pdf().IsDocument(file)) f = new Pdf();
-                else if (OfficeDoc.IsWordFile(file)) f = new WordDocument();
-                else if (OfficeDoc.IsPptFile(file)) f = new PresentationDocument();
-
                 else return null; //Is not supported
 
                 return f.SearchDocument(file, searchPhrase);
@@ -53,7 +45,7 @@ namespace Thothi
     {
         public bool caseSensitive = false;
         public bool regex = false;
-        public virtual bool IsDocument(string file) => true;
+        public virtual bool IsDocument(string file) => false;
 
         protected virtual List<string> ExtractPages(string file) => null;
 
@@ -88,10 +80,22 @@ namespace Thothi
     {
         public override bool IsDocument(string file) =>
             new FileInfo(file).Extension.Equals(".pdf");
-
         protected override List<string> ExtractPages(string file)
-            => PdfParser.ExtractPages(file);
+        {
+            // Create a reader for the given PDF file
+            using (PdfReader reader = new PdfReader(System.IO.File.ReadAllBytes(file)))
+            {
+                List<string> pages = new List<string>();
 
+                for (int page = 1; page <= reader.NumberOfPages; page++)
+                {
+                    ITextExtractionStrategy extractionStrategy = new SimpleTextExtractionStrategy();
+                    pages.Add(PdfTextExtractor.GetTextFromPage(reader, page, extractionStrategy));
+                }
+
+                return pages;
+            }
+        }
         public static void ForcePdfOpenAt(string file, int page)
         {
             //Modify pdf to load at specific page on next run
@@ -107,22 +111,5 @@ namespace Thothi
         }
     }
 
-    class WordDocument : File
-    {
-        public override bool IsDocument(string file)
-            => OfficeDoc.IsWordFile(file);
-
-        protected override List<string> ExtractPages(string file)
-            => OfficeDoc.ExtractWordPages(file);
-    }
-
-    class PresentationDocument : File
-    {
-        public override bool IsDocument(string file)
-            => OfficeDoc.IsPptFile(file);
-
-        protected override List<string> ExtractPages(string file)
-            => OfficeDoc.ExtractPptPages(file);
-    }
 
 }

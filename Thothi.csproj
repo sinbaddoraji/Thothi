@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>zuliph.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
       <HintPath>packages\Portable.BouncyCastle.1.8.1.3\lib\net40\BouncyCastle.Crypto.dll</HintPath>
@@ -92,21 +95,19 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="OfficeDoc.cs" />
-    <Compile Include="PdfParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResultDisplay.cs">
+    <Compile Include="ResultItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ResultDisplay.Designer.cs">
-      <DependentUpon>ResultDisplay.cs</DependentUpon>
+    <Compile Include="ResultItem.Designer.cs">
+      <DependentUpon>ResultItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="Results.cs">
+    <Compile Include="Result.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Results.Designer.cs">
-      <DependentUpon>Results.cs</DependentUpon>
+    <Compile Include="Result.Designer.cs">
+      <DependentUpon>Result.cs</DependentUpon>
     </Compile>
     <Compile Include="SearchEngine.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -121,11 +122,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ResultDisplay.resx">
-      <DependentUpon>ResultDisplay.cs</DependentUpon>
+    <EmbeddedResource Include="ResultItem.resx">
+      <DependentUpon>ResultItem.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Results.resx">
-      <DependentUpon>Results.cs</DependentUpon>
+    <EmbeddedResource Include="Result.resx">
+      <DependentUpon>Result.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -187,6 +188,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="zuliph.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -16,7 +16,7 @@ namespace Thothi
 
     internal class SearchEngine
     {
-        public Results results;
+        public Result results;
         public ProgressBar progressBar;
         private FileHandler fileHandler = new FileHandler();
 

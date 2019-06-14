@@ -10,16 +10,16 @@ using System.Windows.Forms;
 
 namespace Thothi
 {
-    public partial class Results : UserControl
+    public partial class Result : UserControl
     {
-        public Results() => InitializeComponent();
+        public Result() => InitializeComponent();
 
         public bool HasResults => flowLayoutPanel1.Controls.Count > 0;
         public void AddResult(FindDetails details)
         {
             if (details == null) return;
 
-            ResultDisplay rd = new ResultDisplay(details);
+            ResultItem rd = new ResultItem(details);
             rd.Width = Width - 30;
 
             string filename = rd.fName.Text;
