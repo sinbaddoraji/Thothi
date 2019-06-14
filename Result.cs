@@ -16,7 +16,7 @@ namespace Thothi
         //path to the pdf reader's exe
         public string searchPhrase;
 
-        string pdfReader = Pdf.GetAssociatedProgram(".pdf");
+        string pdfReader = Pdf.GetAssociatedProgram();
         public Result() => InitializeComponent();
 
         public bool HasResults => flowLayoutPanel1.Controls.Count > 0;

@@ -34,8 +34,6 @@ namespace Thothi
     {
         public bool caseSensitive = false;
         public bool regex = false;
-        private readonly ITextExtractionStrategy extractionStrategy = new SimpleTextExtractionStrategy();
-
         public bool IsDocument(string file) =>
             new FileInfo(file).Extension.Equals(".pdf");
 
@@ -45,12 +43,21 @@ namespace Thothi
             using (PdfReader reader = new PdfReader(File.ReadAllBytes(file)))
             {
                 List<string> pages = new List<string>();
+                ITextExtractionStrategy extractionStrategy = new SimpleTextExtractionStrategy();
 
                 for (int page = 1; page <= reader.NumberOfPages; page++)
                     pages.Add(PdfTextExtractor.GetTextFromPage(reader, page, extractionStrategy));
 
                 return pages;
             }
+        }
+
+        private bool ContainsMatch(string page, string searchPhrase)
+        {
+            if(regex) return new Regex(searchPhrase).IsMatch(page);
+            else return caseSensitive == true 
+                    ? page.Contains(searchPhrase) 
+                    : page.IndexOf(searchPhrase, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         public FindDetails SearchDocument(string file, string searchPhrase)
@@ -61,40 +68,29 @@ namespace Thothi
 
             for (int i = 0; i < pages.Count; i++)
             {
-                string page = pages[i];
-                if (regex && !new Regex(searchPhrase).IsMatch(searchPhrase)) continue;
-                else if (caseSensitive == true && !page.Contains(searchPhrase)) continue; //search for exact searchPhrase
-                else if (caseSensitive == false)
+                if(ContainsMatch(pages[i], searchPhrase))
                 {
-                    //search reguardless of case
-                    if (page.IndexOf(searchPhrase, StringComparison.OrdinalIgnoreCase) == -1)
-                        continue;
+                    //Record page number
+                    output.pagesSearchFound.Add(i + 1);
                 }
-
-                //Record page number
-                output.pagesSearchFound.Add(i + 1);
             }
 
             return output.pagesSearchFound.Count > 0 ? output : null;
         }
 
-        public static string GetAssociatedProgram(string FileExtension)
+        public static string GetAssociatedProgram()
         {
             RegistryKey objExtReg2 = Registry.ClassesRoot;
             RegistryKey objAppReg2 = Registry.ClassesRoot;
             try
             {
-                if(!FileExtension.StartsWith(".")) FileExtension = "." + FileExtension;
-
-                objExtReg2 = objExtReg2.OpenSubKey(FileExtension.Trim());
+                objExtReg2 = objExtReg2.OpenSubKey(".pdf");
 
                 string strExtValue = objExtReg2.GetValue("").ToString();
 
                 objAppReg2 = objAppReg2.OpenSubKey(strExtValue + "\\shell\\open\\command");
-
                 
                 string[] SplitArray = Convert.ToString(objAppReg2.GetValue(null)).Split('"');
-
 
                 if (SplitArray[0].Trim().Length > 0) return SplitArray[0].Replace("%1", "");
                 return SplitArray[1].Replace("%1", "");
