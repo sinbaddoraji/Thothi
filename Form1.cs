@@ -28,7 +28,7 @@ namespace Thothi
         }
         private async void Button1_ClickAsync(object sender, EventArgs e)
         {
-            if(!results1.HasResults) goto SearchJob;
+            if (!results1.HasResults) goto SearchJob;
 
             var confirm = MessageBox.Show(this,"This will clear everyting in the results control","Are you sure?",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
             if(confirm == DialogResult.No) return;
@@ -38,6 +38,8 @@ namespace Thothi
             searchEngine.Regex = checkBox3.Checked;
 
             SearchJob:
+
+            results1.searchPhrase = textBox1.Text;
             try
             {
                 button1.Enabled = false;
@@ -48,7 +50,6 @@ namespace Thothi
                 SearchComplete();
                 MessageBox.Show("Something made the search to stop...");
             }
-            
         }
 
         private void Button2_Click(object sender, EventArgs e)

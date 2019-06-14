@@ -7,14 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Thothi
 {
     public partial class Result : UserControl
     {
+        //path to the pdf reader's exe
+        public string searchPhrase;
+
+        string pdfReader = Pdf.GetAssociatedProgram(".pdf");
         public Result() => InitializeComponent();
 
         public bool HasResults => flowLayoutPanel1.Controls.Count > 0;
+
         public void AddResult(FindDetails details)
         {
             if (details == null) return;
@@ -26,12 +32,16 @@ namespace Thothi
 
             rd.fName.Click += delegate
             {
-                //Filename click on results form
-                //if is pdf open at specific page else just open file
-                if (new Pdf().IsDocument(filename))
-                    Pdf.ForcePdfOpenAt(filename, rd.GetCurrentPage());
+                new Process()
+                {
+                    StartInfo = new ProcessStartInfo()
+                    {
+                        Arguments = $"/A \"page={rd.CurrentPage()}\"&search=\"{searchPhrase}\" \"{filename}\"",
+                        FileName = pdfReader
+                    }
+                }.Start();
 
-                System.Diagnostics.Process.Start(filename);
+                //#search="word1 word2"
             };
 
             flowLayoutPanel1.Controls.Add(rd);

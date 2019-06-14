@@ -14,7 +14,7 @@ namespace Thothi
     {
         public ResultItem() => InitializeComponent();
 
-        public int GetCurrentPage()
+        public int CurrentPage()
         {
             try
             {
@@ -31,7 +31,7 @@ namespace Thothi
         {
             fName.Text = fd.filename;
             comboBox1.DataSource = fd.pagesSearchFound;
-
+            
             if(comboBox1.Items.Count > 0)
             comboBox1.Text = comboBox1.Items[0].ToString();
         }

@@ -12,13 +12,19 @@ namespace Thothi
         public string filename;
         public string searchPhrase;
         public List<int> pagesSearchFound = new List<int>();
+
+        public FindDetails(string filename,string searchPhrase)
+        {
+            this.filename = filename;
+            this.searchPhrase = searchPhrase;
+        }
     }
 
     internal class SearchEngine
     {
         public Result results;
         public ProgressBar progressBar;
-        private FileHandler fileHandler = new FileHandler();
+        private readonly FileHandler fileHandler = new FileHandler();
 
         public bool stopSearch = false;
 
@@ -55,8 +61,8 @@ namespace Thothi
             string[] output;
 
             if (searchSubdir)
-                output = Directory.GetFiles(path, "*", SearchOption.AllDirectories);
-            else output = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly);
+                output = Directory.GetFiles(path, "*.pdf", SearchOption.AllDirectories);
+            else output = Directory.GetFiles(path, "*.pdf", SearchOption.TopDirectoryOnly);
 
             return output;
         }
