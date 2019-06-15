@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Thothi
 {
     public partial class Form1 : Form
     {
-        SearchEngine searchEngine = new SearchEngine();
+        private readonly SearchEngine searchEngine = new SearchEngine();
 
         public Form1()
         {
@@ -28,16 +21,22 @@ namespace Thothi
         }
         private async void Button1_ClickAsync(object sender, EventArgs e)
         {
-            if (!results1.HasResults) goto SearchJob;
+            if (!results1.HasResults)
+            {
+                goto SearchJob;
+            }
 
-            var confirm = MessageBox.Show(this,"This will clear everyting in the results control","Are you sure?",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
-            if(confirm == DialogResult.No) return;
+            DialogResult confirm = MessageBox.Show(this, "This will clear everyting in the results control", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm == DialogResult.No)
+            {
+                return;
+            }
 
             results1.ClearResults();
-            searchEngine.CaseSensitive = checkBox2.Checked; 
+            searchEngine.CaseSensitive = checkBox2.Checked;
             searchEngine.Regex = checkBox3.Checked;
 
-            SearchJob:
+        SearchJob:
 
             results1.searchPhrase = textBox1.Text;
             try
@@ -54,14 +53,25 @@ namespace Thothi
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            if(folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
                 textBox2.Text = folderBrowserDialog1.SelectedPath;
+            }
         }
 
-        private void Button3_Click(object sender, EventArgs e) => searchEngine.stopSearch = true; // Stop search
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            searchEngine.stopSearch = true; // Stop search
+        }
 
-        private void CheckBox2_CheckedChanged(object sender, EventArgs e) => searchEngine.CaseSensitive = checkBox2.Checked;
+        private void CheckBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            searchEngine.CaseSensitive = checkBox2.Checked;
+        }
 
-        private void CheckBox3_CheckedChanged(object sender, EventArgs e) => searchEngine.Regex = checkBox3.Checked;
+        private void CheckBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            searchEngine.Regex = checkBox3.Checked;
+        }
     }
 }

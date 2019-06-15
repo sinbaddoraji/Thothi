@@ -39,15 +39,15 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.button3 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.results1 = new Thothi.Result();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -112,11 +112,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox2.BackColor = System.Drawing.Color.White;
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.Enabled = false;
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.ForeColor = System.Drawing.Color.Black;
             this.textBox2.Location = new System.Drawing.Point(95, 7);
             this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(461, 26);
             this.textBox2.TabIndex = 6;
             this.textBox2.Text = "C:\\";
@@ -160,6 +160,7 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.SystemColors.Control;
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.textBox2);
@@ -174,50 +175,6 @@
             this.panel1.Size = new System.Drawing.Size(629, 104);
             this.panel1.TabIndex = 12;
             // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.White;
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.button3);
-            this.panel2.Controls.Add(this.progressBar1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 489);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(629, 27);
-            this.panel2.TabIndex = 13;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(3, 5);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(114, 17);
-            this.checkBox1.TabIndex = 3;
-            this.checkBox1.Text = "Include Subfolders";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(123, 5);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(96, 17);
-            this.checkBox2.TabIndex = 10;
-            this.checkBox2.Text = "Case Sensitive";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.CheckBox2_CheckedChanged);
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(225, 5);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(122, 17);
-            this.checkBox3.TabIndex = 11;
-            this.checkBox3.Text = "Regular Expressions";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.CheckBox3_CheckedChanged);
-            // 
             // panel3
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -231,13 +188,60 @@
             this.panel3.Size = new System.Drawing.Size(349, 25);
             this.panel3.TabIndex = 12;
             // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(225, 5);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(122, 17);
+            this.checkBox3.TabIndex = 11;
+            this.checkBox3.Text = "Regular Expressions";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.CheckBox3_CheckedChanged);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(123, 5);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(96, 17);
+            this.checkBox2.TabIndex = 10;
+            this.checkBox2.Text = "Case Sensitive";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.CheckBox2_CheckedChanged);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(3, 5);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(114, 17);
+            this.checkBox1.TabIndex = 3;
+            this.checkBox1.Text = "Include Subfolders";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.button3);
+            this.panel2.Controls.Add(this.progressBar1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 489);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(629, 27);
+            this.panel2.TabIndex = 13;
+            // 
             // results1
             // 
+            this.results1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.results1.BackColor = System.Drawing.Color.DimGray;
-            this.results1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.results1.Location = new System.Drawing.Point(0, 0);
+            this.results1.Location = new System.Drawing.Point(1, 105);
             this.results1.Name = "results1";
-            this.results1.Size = new System.Drawing.Size(629, 516);
+            this.results1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.results1.Size = new System.Drawing.Size(628, 384);
             this.results1.TabIndex = 4;
             // 
             // Form1
@@ -253,9 +257,9 @@
             this.Text = "Thothi";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

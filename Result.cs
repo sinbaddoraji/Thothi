@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Thothi
 {
@@ -15,19 +7,27 @@ namespace Thothi
     {
         //path to the pdf reader's exe
         public string searchPhrase;
-
-        string pdfReader = Pdf.GetAssociatedProgram();
-        public Result() => InitializeComponent();
+        private readonly string pdfReader = Pdf.GetAssociatedProgram();
+        public Result()
+        {
+            InitializeComponent();
+        }
 
         public bool HasResults => flowLayoutPanel1.Controls.Count > 0;
 
         public void AddResult(FindDetails details)
         {
-            if (details == null) return;
+            if (details == null)
+            {
+                return;
+            }
 
-            ResultItem rd = new ResultItem(details);
-            rd.Width = Width - 30;
+            ResultItem rd = new ResultItem(details)
+            {
+                Width = this.Width - 28
+            };
 
+            SizeChanged += delegate { rd.Width = Width - 28; };
             string filename = rd.fName.Text;
 
             rd.fName.Click += delegate

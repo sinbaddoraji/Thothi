@@ -38,33 +38,34 @@
             this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(14, 66);
+            this.comboBox1.Location = new System.Drawing.Point(82, 43);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(149, 23);
+            this.comboBox1.Size = new System.Drawing.Size(163, 23);
             this.comboBox1.TabIndex = 1;
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(11, 48);
+            this.label2.Location = new System.Drawing.Point(14, 46);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(152, 15);
+            this.label2.Size = new System.Drawing.Size(62, 15);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Pages Containing Phrases";
+            this.label2.Text = "Found on:";
             // 
             // fName
             // 
             this.fName.AutoSize = true;
             this.fName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fName.Location = new System.Drawing.Point(55, 17);
+            this.fName.Location = new System.Drawing.Point(95, 14);
             this.fName.Name = "fName";
             this.fName.Size = new System.Drawing.Size(64, 15);
             this.fName.TabIndex = 3;
             this.fName.TabStop = true;
             this.fName.Text = "File Name";
             // 
-            // ResultDisplay
+            // ResultItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -72,8 +73,9 @@
             this.Controls.Add(this.fName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBox1);
-            this.Name = "ResultDisplay";
-            this.Size = new System.Drawing.Size(177, 101);
+            this.Name = "ResultItem";
+            this.Padding = new System.Windows.Forms.Padding(1, 3, 1, 3);
+            this.Size = new System.Drawing.Size(261, 87);
             this.SizeChanged += new System.EventHandler(this.ResultDisplay_SizeChanged);
             this.ResumeLayout(false);
             this.PerformLayout();

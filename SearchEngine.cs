@@ -1,8 +1,6 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
-using System.Linq;
-using System;
 using System.Windows.Forms;
 
 namespace Thothi
@@ -13,7 +11,7 @@ namespace Thothi
         public string searchPhrase;
         public List<int> pagesSearchFound = new List<int>();
 
-        public FindDetails(string filename,string searchPhrase)
+        public FindDetails(string filename, string searchPhrase)
         {
             this.filename = filename;
             this.searchPhrase = searchPhrase;
@@ -48,7 +46,7 @@ namespace Thothi
             TaskCompletionSource<FindDetails> tcs = new TaskCompletionSource<FindDetails>();
             Task.Run(() =>
             {
-                var result = fileHandler.SearchDocument(file, searchPhrase);
+                FindDetails result = fileHandler.SearchDocument(file, searchPhrase);
                 //set the result to TaskCompletionSource
                 tcs.SetResult(result);
             });
@@ -56,29 +54,34 @@ namespace Thothi
             return tcs.Task;
         }
 
-        string[] GetAllFiles(string path, bool searchSubdir, string searchPattern)
+        private string[] GetAllFiles(string path, bool searchSubdir, string searchPattern)
         {
             string[] output;
 
             if (searchSubdir)
+            {
                 output = Directory.GetFiles(path, "*.pdf", SearchOption.AllDirectories);
-            else output = Directory.GetFiles(path, "*.pdf", SearchOption.TopDirectoryOnly);
+            }
+            else
+            {
+                output = Directory.GetFiles(path, "*.pdf", SearchOption.TopDirectoryOnly);
+            }
 
             return output;
         }
 
-        public async Task<bool> SearchDirectoriesAsync(string directory, bool searchSubDirs,string searchPhrase)
+        public async Task<bool> SearchDirectoriesAsync(string directory, bool searchSubDirs, string searchPhrase)
         {
             List<FindDetails> output = new List<FindDetails>();
 
-            var files =  GetAllFiles(directory,searchSubDirs,searchPhrase);
+            string[] files = GetAllFiles(directory, searchSubDirs, searchPhrase);
 
             progressBar.Maximum = files.Length - 1;
             progressBar.Value = progressBar.Minimum = 0;
 
             for (int i = 0; i < files.Length; i++)
             {
-                if(stopSearch == true)
+                if (stopSearch == true)
                 {
                     SearchComplete();
                     progressBar.Value = 0;
@@ -87,12 +90,15 @@ namespace Thothi
 
                 try
                 {
-                    if (!fileHandler.Supports(files[i])) continue;
+                    if (!fileHandler.Supports(files[i]))
+                    {
+                        continue;
+                    }
                     else
                     {
-                        var result = await SearchDocument(files[i], searchPhrase);
+                        FindDetails result = await SearchDocument(files[i], searchPhrase);
 
-                        if(result != null)
+                        if (result != null)
                         {
                             results.AddResult(result);
                             SearchFound();
@@ -110,10 +116,16 @@ namespace Thothi
             return true;
         }
 
-        private void SearchFoundEventHandler() => progressBar.Value++;
+        private void SearchFoundEventHandler()
+        {
+            progressBar.Value++;
+        }
 
-        public SearchEngine() => SearchFound = SearchFoundEventHandler;
+        public SearchEngine()
+        {
+            SearchFound = SearchFoundEventHandler;
+        }
     }
 
-    
+
 }

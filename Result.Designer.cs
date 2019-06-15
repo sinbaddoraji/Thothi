@@ -38,16 +38,17 @@
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(2, 3, 0, 12);
             this.flowLayoutPanel1.Size = new System.Drawing.Size(556, 388);
             this.flowLayoutPanel1.TabIndex = 0;
             this.flowLayoutPanel1.WrapContents = false;
             // 
-            // Results
+            // Result
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Name = "Results";
+            this.Name = "Result";
             this.Size = new System.Drawing.Size(556, 388);
             this.ResumeLayout(false);
 

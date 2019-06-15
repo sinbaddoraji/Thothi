@@ -1,16 +1,16 @@
 ﻿using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using System;
-using Microsoft.Win32;
 
 namespace Thothi
 {
-    class FileHandler
+    internal class FileHandler
     {
-        readonly Pdf f = new Pdf();
+        private readonly Pdf f = new Pdf();
         public bool CaseSensitive
         {
             get => f.caseSensitive;
@@ -23,21 +23,27 @@ namespace Thothi
             set => f.regex = value;
         }
 
-        public bool Supports(string file) 
-            => new Pdf().IsDocument(file);
+        public bool Supports(string file)
+        {
+            return new Pdf().IsDocument(file);
+        }
 
-        public FindDetails SearchDocument(string file, string searchPhrase) 
-            => f.SearchDocument(file, searchPhrase);
+        public FindDetails SearchDocument(string file, string searchPhrase)
+        {
+            return f.SearchDocument(file, searchPhrase);
+        }
     }
 
-    class Pdf 
+    internal class Pdf
     {
         public bool caseSensitive = false;
         public bool regex = false;
-        public bool IsDocument(string file) =>
-            new FileInfo(file).Extension.Equals(".pdf");
+        public bool IsDocument(string file)
+        {
+            return new FileInfo(file).Extension.Equals(".pdf");
+        }
 
-        private  List<string> ExtractPages(string file)
+        private List<string> ExtractPages(string file)
         {
             // Create a reader for the given PDF file
             using (PdfReader reader = new PdfReader(File.ReadAllBytes(file)))
@@ -46,7 +52,9 @@ namespace Thothi
                 ITextExtractionStrategy extractionStrategy = new SimpleTextExtractionStrategy();
 
                 for (int page = 1; page <= reader.NumberOfPages; page++)
+                {
                     pages.Add(PdfTextExtractor.GetTextFromPage(reader, page, extractionStrategy));
+                }
 
                 return pages;
             }
@@ -54,21 +62,35 @@ namespace Thothi
 
         private bool ContainsMatch(string page, string searchPhrase)
         {
-            if(regex) return new Regex(searchPhrase).IsMatch(page);
-            else return caseSensitive == true 
-                    ? page.Contains(searchPhrase) 
+            if (regex)
+            {
+                try
+                {
+                    return new Regex(searchPhrase).IsMatch(page);
+                }
+                catch (Exception)
+                {
+                    System.Windows.Forms.MessageBox.Show("Invalid regex expression");
+                    return false;
+                }
+            }
+            else
+            {
+                return caseSensitive == true
+                    ? page.Contains(searchPhrase)
                     : page.IndexOf(searchPhrase, StringComparison.OrdinalIgnoreCase) >= 0;
+            }
         }
 
         public FindDetails SearchDocument(string file, string searchPhrase)
         {
-            var pages = ExtractPages(file);
+            List<string> pages = ExtractPages(file);
 
-            FindDetails output = new FindDetails(file,searchPhrase);
+            FindDetails output = new FindDetails(file, searchPhrase);
 
             for (int i = 0; i < pages.Count; i++)
             {
-                if(ContainsMatch(pages[i], searchPhrase))
+                if (ContainsMatch(pages[i], searchPhrase))
                 {
                     //Record page number
                     output.pagesSearchFound.Add(i + 1);
@@ -89,15 +111,19 @@ namespace Thothi
                 string strExtValue = objExtReg2.GetValue("").ToString();
 
                 objAppReg2 = objAppReg2.OpenSubKey(strExtValue + "\\shell\\open\\command");
-                
+
                 string[] SplitArray = Convert.ToString(objAppReg2.GetValue(null)).Split('"');
 
-                if (SplitArray[0].Trim().Length > 0) return SplitArray[0].Replace("%1", "");
+                if (SplitArray[0].Trim().Length > 0)
+                {
+                    return SplitArray[0].Replace("%1", "");
+                }
+
                 return SplitArray[1].Replace("%1", "");
             }
-            catch 
+            catch
             {
-               return "";
+                return "";
             }
         }
     }
