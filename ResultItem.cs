@@ -1,31 +1,20 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace Thothi
 {
     public partial class ResultItem : UserControl
     {
-        public ResultItem()
-        {
-            InitializeComponent();
-        }
-
         public int CurrentPage()
         {
-            try
-            {
-                return int.Parse(comboBox1.Text);
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
-
+            int.TryParse(comboBox1.Text, out int output);
+            return output;
         }
 
-        public ResultItem(FindDetails fd) : this()
+        public ResultItem(FindDetails fd) 
         {
+            InitializeComponent();
+
             fName.Text = fd.filename;
             comboBox1.DataSource = fd.pagesSearchFound;
 

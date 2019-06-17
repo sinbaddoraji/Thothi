@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Thothi
@@ -21,14 +21,10 @@ namespace Thothi
     internal class SearchEngine
     {
         public Result results;
-        public ProgressBar progressBar;
         private readonly FileHandler fileHandler = new FileHandler();
 
         public bool stopSearch = false;
-
-        public delegate void SearchEvent();
-        public SearchEvent SearchFound;
-        public SearchEvent SearchComplete;
+        public bool isSearching = false;
 
         public bool CaseSensitive
         {
@@ -40,6 +36,9 @@ namespace Thothi
             get => fileHandler.Regex;
             set => fileHandler.Regex = value;
         }
+
+        string[] GetFiles(string path) => Directory.GetFiles(path, "*.pdf", SearchOption.TopDirectoryOnly);
+
 
         private Task<FindDetails> SearchDocument(string file, string searchPhrase)
         {
@@ -54,55 +53,29 @@ namespace Thothi
             return tcs.Task;
         }
 
-        private string[] GetAllFiles(string path, bool searchSubdir, string searchPattern)
-        {
-            string[] output;
-
-            if (searchSubdir)
-            {
-                output = Directory.GetFiles(path, "*.pdf", SearchOption.AllDirectories);
-            }
-            else
-            {
-                output = Directory.GetFiles(path, "*.pdf", SearchOption.TopDirectoryOnly);
-            }
-
-            return output;
-        }
-
-        public async Task<bool> SearchDirectoriesAsync(string directory, bool searchSubDirs, string searchPhrase)
+        private async Task<bool> SearchDirectoryBlock(List<string> files,string searchPhrase)
         {
             List<FindDetails> output = new List<FindDetails>();
 
-            string[] files = GetAllFiles(directory, searchSubDirs, searchPhrase);
-
-            progressBar.Maximum = files.Length - 1;
-            progressBar.Value = progressBar.Minimum = 0;
-
-            for (int i = 0; i < files.Length; i++)
+            for (int i = 0; i < files.Count; i++)
             {
                 if (stopSearch == true)
                 {
-                    SearchComplete();
-                    progressBar.Value = 0;
                     return stopSearch = false;
                 }
 
                 try
                 {
-                    if (!fileHandler.Supports(files[i]))
-                    {
-                        continue;
-                    }
+                    if (!fileHandler.Supports(files[i])) continue;
                     else
                     {
                         FindDetails result = await SearchDocument(files[i], searchPhrase);
 
-                        if (result != null)
-                        {
+                        if (result == null) continue;
+
+                        results.Invoke(new MethodInvoker(() => {
                             results.AddResult(result);
-                            SearchFound();
-                        }
+                        }));
                     }
                 }
                 catch
@@ -111,20 +84,43 @@ namespace Thothi
                 }
             }
 
-            SearchComplete();
-            progressBar.Value = 0;
             return true;
         }
 
-        private void SearchFoundEventHandler()
+        
+        private async void SearchInnerDirectoriesAsync(string directory, string searchPhrase)
         {
-            progressBar.Value++;
+            var directories = Directory.GetDirectories(directory);
+               
+            for (int i = 0; i < directories.Length; i++)
+            {
+                if(stopSearch == true) break;
+                try
+                {
+                    await SearchDirectoriesAsync(directories[i],true,searchPhrase);
+                }
+                catch
+                {
+                    //Ignore
+                }
+            }
         }
 
-        public SearchEngine()
+
+        public async Task<bool> SearchDirectoriesAsync(string directory, bool searchSubDirs, string searchPhrase)
         {
-            SearchFound = SearchFoundEventHandler;
+            List<string> files = new List<string>(GetFiles(directory));
+            isSearching = true;
+
+            await SearchDirectoryBlock(files, searchPhrase);
+
+            if (searchSubDirs)
+                SearchInnerDirectoriesAsync(directory, searchPhrase);
+
+            isSearching = false;
+            return true;
         }
+
     }
 
 

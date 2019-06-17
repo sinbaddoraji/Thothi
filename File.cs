@@ -1,9 +1,9 @@
-﻿using iTextSharp.text.pdf;
-using iTextSharp.text.pdf.parser;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
+using Microsoft.Win32;
+using iTextSharp.text.pdf;
+using System.Collections.Generic;
+using iTextSharp.text.pdf.parser;
 using System.Text.RegularExpressions;
 
 namespace Thothi
@@ -84,48 +84,49 @@ namespace Thothi
 
         public FindDetails SearchDocument(string file, string searchPhrase)
         {
-            List<string> pages = ExtractPages(file);
-
-            FindDetails output = new FindDetails(file, searchPhrase);
-
-            for (int i = 0; i < pages.Count; i++)
+            try
             {
-                if (ContainsMatch(pages[i], searchPhrase))
-                {
-                    //Record page number
-                    output.pagesSearchFound.Add(i + 1);
-                }
-            }
+                List<string> pages = ExtractPages(file);
 
-            return output.pagesSearchFound.Count > 0 ? output : null;
+                FindDetails output = new FindDetails(file, searchPhrase);
+
+                for (int i = 0; i < pages.Count; i++)
+                {
+                    if (ContainsMatch(pages[i], searchPhrase))
+                    {
+                        //Record page number
+                        output.pagesSearchFound.Add(i + 1);
+                    }
+                }
+
+                return output.pagesSearchFound.Count > 0 ? output : null;
+            }
+            catch 
+            {
+                return null; 
+            }
         }
 
         public static string GetAssociatedProgram()
         {
-            RegistryKey objExtReg2 = Registry.ClassesRoot;
-            RegistryKey objAppReg2 = Registry.ClassesRoot;
             try
             {
-                objExtReg2 = objExtReg2.OpenSubKey(".pdf");
+                var strExtValue = Convert.ToString(Registry.ClassesRoot.OpenSubKey(".pdf").GetValue(null));
 
-                string strExtValue = objExtReg2.GetValue("").ToString();
+                var objAppReg2 = Registry.ClassesRoot.OpenSubKey(strExtValue + "\\shell\\open\\command");
 
-                objAppReg2 = objAppReg2.OpenSubKey(strExtValue + "\\shell\\open\\command");
+                var splitArray = Convert.ToString(objAppReg2.GetValue(null)).Split('"');
 
-                string[] SplitArray = Convert.ToString(objAppReg2.GetValue(null)).Split('"');
+                var spI = splitArray[0].Trim().Length == 0 ? 1 : 0;
 
-                if (SplitArray[0].Trim().Length > 0)
-                {
-                    return SplitArray[0].Replace("%1", "");
-                }
-
-                return SplitArray[1].Replace("%1", "");
+                return splitArray[spI].Replace("%1", "");
             }
             catch
             {
-                return "";
+                return null;
             }
         }
+
     }
 
 

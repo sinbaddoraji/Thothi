@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Thothi
@@ -8,19 +9,24 @@ namespace Thothi
         //path to the pdf reader's exe
         public string searchPhrase;
         private readonly string pdfReader = Pdf.GetAssociatedProgram();
+
         public Result()
         {
             InitializeComponent();
+
+            SetStyle(ControlStyles.AllPaintingInWmPaint |
+               ControlStyles.OptimizedDoubleBuffer |
+               ControlStyles.UserPaint, true);
+
         }
 
         public bool HasResults => flowLayoutPanel1.Controls.Count > 0;
 
+        public void Clear() => flowLayoutPanel1.Controls.Clear();
+
         public void AddResult(FindDetails details)
         {
-            if (details == null)
-            {
-                return;
-            }
+            if (details == null) return;
 
             ResultItem rd = new ResultItem(details)
             {
@@ -36,21 +42,13 @@ namespace Thothi
                 {
                     StartInfo = new ProcessStartInfo()
                     {
-                        Arguments = $"/A \"page={rd.CurrentPage()}\"&search=\"{searchPhrase}\" \"{filename}\"",
+                        Arguments = $"/A search=\"{searchPhrase}\"&page=\"{rd.CurrentPage()}\" \"{filename}\"",
                         FileName = pdfReader
                     }
                 }.Start();
-
-                //#search="word1 word2"
             };
 
             flowLayoutPanel1.Controls.Add(rd);
-
-        }
-
-        public void ClearResults()
-        {
-            flowLayoutPanel1.Controls.Clear();
         }
 
     }

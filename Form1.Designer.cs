@@ -36,18 +36,17 @@
             this.button2 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.button3 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.results1 = new Thothi.Result();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -131,24 +130,14 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Search Folder";
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.BackColor = System.Drawing.Color.White;
-            this.progressBar1.Location = new System.Drawing.Point(0, -1);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(602, 27);
-            this.progressBar1.TabIndex = 8;
-            // 
             // button3
             // 
-            this.button3.BackColor = System.Drawing.Color.White;
-            this.button3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button3.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.button3.BackColor = System.Drawing.Color.Transparent;
             this.button3.FlatAppearance.BorderSize = 0;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(604, 0);
+            this.button3.Location = new System.Drawing.Point(602, 73);
             this.button3.MaximumSize = new System.Drawing.Size(23, 25);
             this.button3.MinimumSize = new System.Drawing.Size(23, 25);
             this.button3.Name = "button3";
@@ -161,6 +150,8 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.textBox2);
@@ -220,17 +211,12 @@
             this.checkBox1.Text = "Include Subfolders";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // panel2
+            // backgroundWorker1
             // 
-            this.panel2.BackColor = System.Drawing.Color.White;
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.button3);
-            this.panel2.Controls.Add(this.progressBar1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 489);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(629, 27);
-            this.panel2.TabIndex = 13;
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker1_DoWorkAsync);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BackgroundWorker1_RunWorkerCompleted);
             // 
             // results1
             // 
@@ -241,15 +227,24 @@
             this.results1.Location = new System.Drawing.Point(1, 105);
             this.results1.Name = "results1";
             this.results1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.results1.Size = new System.Drawing.Size(628, 384);
+            this.results1.Size = new System.Drawing.Size(628, 410);
             this.results1.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(45, 78);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(128, 15);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Search in progress";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(629, 516);
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.results1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -259,7 +254,6 @@
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -274,14 +268,14 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Label label3;
     }
 }
 

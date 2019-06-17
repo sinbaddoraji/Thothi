@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel1 = new FlowPanel();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -56,6 +56,6 @@
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private FlowPanel flowLayoutPanel1;
     }
 }

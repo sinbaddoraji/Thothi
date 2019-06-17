@@ -11,44 +11,19 @@ namespace Thothi
         {
             InitializeComponent();
             searchEngine.results = results1;
-            searchEngine.progressBar = progressBar1;
-            searchEngine.SearchComplete = SearchComplete;
+            label3.Hide();
         }
 
-        private void SearchComplete()
+        private  void Button1_ClickAsync(object sender, EventArgs e)
         {
-            button1.Enabled = true;
-        }
-        private async void Button1_ClickAsync(object sender, EventArgs e)
-        {
-            if (!results1.HasResults)
+            if (results1.HasResults)
             {
-                goto SearchJob;
+                DialogResult confirm = MessageBox.Show(this, "This will clear everyting in the results control", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.No) return;
             }
 
-            DialogResult confirm = MessageBox.Show(this, "This will clear everyting in the results control", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (confirm == DialogResult.No)
-            {
-                return;
-            }
-
-            results1.ClearResults();
-            searchEngine.CaseSensitive = checkBox2.Checked;
-            searchEngine.Regex = checkBox3.Checked;
-
-        SearchJob:
-
-            results1.searchPhrase = textBox1.Text;
-            try
-            {
-                button1.Enabled = false;
-                await searchEngine.SearchDirectoriesAsync(folderBrowserDialog1.SelectedPath, checkBox1.Checked, textBox1.Text);
-            }
-            catch
-            {
-                SearchComplete();
-                MessageBox.Show("Something made the search to stop...");
-            }
+            label3.Show();
+            backgroundWorker1.RunWorkerAsync();
         }
 
         private void Button2_Click(object sender, EventArgs e)
@@ -61,7 +36,21 @@ namespace Thothi
 
         private void Button3_Click(object sender, EventArgs e)
         {
-            searchEngine.stopSearch = true; // Stop search
+            if(searchEngine.isSearching)
+            {
+                searchEngine.stopSearch = true; // Stop search
+                button1.Enabled = true;
+                searchEngine.isSearching = false;
+
+                backgroundWorker1.CancelAsync();
+               
+                Text = "Thothi";
+
+                label3.Hide();
+
+                MessageBox.Show("Search successfully stopped");
+            }
+            
         }
 
         private void CheckBox2_CheckedChanged(object sender, EventArgs e)
@@ -73,5 +62,46 @@ namespace Thothi
         {
             searchEngine.Regex = checkBox3.Checked;
         }
+
+        private async void BackgroundWorker1_DoWorkAsync(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            results1.Invoke(new MethodInvoker(() => {
+                results1.Clear();
+                searchEngine.CaseSensitive = checkBox2.Checked;
+                searchEngine.Regex = checkBox3.Checked;
+
+                results1.searchPhrase = textBox1.Text;
+                button1.Enabled = false;
+
+                Text = "Thothi (Searching...)";
+            }));
+
+            try
+            {
+                
+                await searchEngine.SearchDirectoriesAsync(folderBrowserDialog1.SelectedPath, checkBox1.Checked, textBox1.Text);
+            }
+            catch (Exception ed)
+            {
+                MessageBox.Show(ed.Message);
+                MessageBox.Show("Something made the search to stop...");
+            }
+        }
+
+        private void BackgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            if(searchEngine.isSearching == true)
+            {
+                button1.Enabled = true;
+                searchEngine.isSearching = false;
+                Text = "Thothi";
+
+                label3.Hide();
+
+                MessageBox.Show("Search Complete");
+            }
+            
+        }
+
     }
 }
