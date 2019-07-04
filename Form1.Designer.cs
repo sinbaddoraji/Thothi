@@ -38,13 +38,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.results1 = new Thothi.Result();
-            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
@@ -52,6 +52,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(5, 47);
             this.label1.Name = "label1";
@@ -123,6 +124,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(5, 12);
             this.label2.Name = "label2";
@@ -149,7 +151,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.panel3);
@@ -166,9 +168,21 @@
             this.panel1.Size = new System.Drawing.Size(629, 104);
             this.panel1.TabIndex = 12;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(45, 78);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(128, 15);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Search in progress";
+            // 
             // panel3
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.BackColor = System.Drawing.Color.Transparent;
             this.panel3.Controls.Add(this.checkBox3);
             this.panel3.Controls.Add(this.checkBox2);
             this.panel3.Controls.Add(this.checkBox1);
@@ -182,34 +196,37 @@
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
+            this.checkBox3.BackColor = System.Drawing.Color.Transparent;
             this.checkBox3.Location = new System.Drawing.Point(225, 5);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(122, 17);
             this.checkBox3.TabIndex = 11;
             this.checkBox3.Text = "Regular Expressions";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.UseVisualStyleBackColor = false;
             this.checkBox3.CheckedChanged += new System.EventHandler(this.CheckBox3_CheckedChanged);
             // 
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
+            this.checkBox2.BackColor = System.Drawing.Color.Transparent;
             this.checkBox2.Location = new System.Drawing.Point(123, 5);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(96, 17);
             this.checkBox2.TabIndex = 10;
             this.checkBox2.Text = "Case Sensitive";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.UseVisualStyleBackColor = false;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.CheckBox2_CheckedChanged);
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
+            this.checkBox1.BackColor = System.Drawing.Color.Transparent;
             this.checkBox1.Location = new System.Drawing.Point(3, 5);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(114, 17);
             this.checkBox1.TabIndex = 3;
             this.checkBox1.Text = "Include Subfolders";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.UseVisualStyleBackColor = false;
             // 
             // backgroundWorker1
             // 
@@ -223,27 +240,20 @@
             this.results1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.results1.BackColor = System.Drawing.Color.DimGray;
-            this.results1.Location = new System.Drawing.Point(1, 105);
+            this.results1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.results1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.results1.Location = new System.Drawing.Point(0, 105);
             this.results1.Name = "results1";
             this.results1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.results1.Size = new System.Drawing.Size(628, 410);
+            this.results1.Size = new System.Drawing.Size(629, 411);
             this.results1.TabIndex = 4;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(45, 78);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(128, 15);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Search in progress";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::Thothi.Properties.Resources.texture3;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(629, 516);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.results1);
